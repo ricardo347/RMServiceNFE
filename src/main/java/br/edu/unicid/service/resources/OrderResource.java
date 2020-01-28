@@ -9,20 +9,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.edu.unicid.service.entities.User;
-import br.edu.unicid.service.services.UserService;
+import br.edu.unicid.service.entities.Order;
+import br.edu.unicid.service.services.OrderService;
 
 @RestController
-@RequestMapping(value = "/users")
-public class UserResource {
+@RequestMapping(value = "/orders")
+public class OrderResource {
 	
 	//when using spring dependency injection, it must register de component
 	@Autowired
-	private UserService service;
+	private OrderService service;
 	
 	@GetMapping
-	public ResponseEntity<List<User>> findAll(){
-		List<User> list = service.findAll();
+	public ResponseEntity<List<Order>> findAll(){
+		List<Order> list = service.findAll();
 		return ResponseEntity.ok().body(list);
 	}
 	
@@ -30,8 +30,8 @@ public class UserResource {
 	//value means, we're passing parameter id to GET
 	//@PathVariable must do be add to method parameter
 	@GetMapping(value="/{id}")
-	public ResponseEntity<User> findById(@PathVariable Long id){
-		User obj = service.findById(id);
+	public ResponseEntity<Order> findById(@PathVariable Long id){
+		Order obj = service.findById(id);
 		return ResponseEntity.ok().body(obj);
 	}
 	
