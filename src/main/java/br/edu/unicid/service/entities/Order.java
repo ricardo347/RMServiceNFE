@@ -5,6 +5,7 @@ import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -29,8 +31,7 @@ public class Order implements Serializable{
 	private Long id;
 		
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'",timezone="GMT")
-	private Instant moment;	
-	
+	private Instant moment;		
 	private Integer orderStatus;
 	
 	//JPA annotations to denote foreign keys and join entities	
@@ -40,6 +41,11 @@ public class Order implements Serializable{
 	
 	@OneToMany(mappedBy = "id.order")
 	private Set<OrderItem> items = new HashSet<>();
+	
+	//one to one mapping
+	@OneToOne(mappedBy="order", cascade = CascadeType.ALL)
+	
+	private Payment payment;
 	
 	public Order() {
 		
@@ -77,6 +83,15 @@ public class Order implements Serializable{
 		this.client = client;
 	}
 	
+	
+	public Payment getPayment() {
+		return payment;
+	}
+
+	public void setPayment(Payment payment) {
+		this.payment = payment;
+	}
+
 	public Set<OrderItem> getItems(){
 		return items;
 	}
